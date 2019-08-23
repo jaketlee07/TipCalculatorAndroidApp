@@ -3,6 +3,7 @@ package com.example.tipcalculator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,13 +23,13 @@ public class MainActivity extends AppCompatActivity
 
         final RatingBar serviceRating = (RatingBar) findViewById(R.id.serviceRating);
         final EditText tipPercent = (EditText) findViewById(R.id.tipPercent);
-        final TextView tip = (TextView) findViewById(R.id.tip);
 
-        serviceRating.setOnClickListener(new View.onClickListener()
-        {
-            public void onClick(View v)
+        serviceRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean b)
             {
-                tipPercent.setText("" +serviceRating.getRating()*4);
+                tipPercent.setText("" +(int)rating*4);
+                Log.i("Testing stars", "Testing stars: " + (int)rating);
             }
         });
     }
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         DecimalFormat df = new DecimalFormat("#.00");
         double tipAmount = bill * (percent*.01);
         double billTotal = bill + tipAmount;
+        Log.i("Testing calc button", "Testing button");
 
         tip.setText("TIP: $" + df.format(tipAmount) + "\nTOTAL: $"+ df.format(billTotal));
     }
